@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Secret Number</title>
+</head>
+<body>
+	<div>
+		<label>Sum of all digits: </label>
+		<input type="text" id="A">
+	</div>
+	<div>
+		<label>100s Digit + 10s Digit: </label>
+		<input type="text" id="B">
+	</div>
+	<div>
+		<label>100s Digit + 1s Digit: </label>
+		<input type="text" id="C">
+	</div>
+	<button>Calculate Secret Number</button>
+	<p style="color: blue">Secret Number: </p>
+	<script type="text/javascript">
+		let secret_number_p = document.getElementsByTagName("p")[0];
+		let button = document.getElementsByTagName("button")[0];
+		button.addEventListener("click", getSecretNumber);
+		function getSecretNumber() {
+			let A = parseInt(document.getElementById("A").value);
+			let B = parseInt(document.getElementById("B").value);
+			let C = parseInt(document.getElementById("C").value);
+
+			if (handleErrors(A, B, C) == 0) {
+				let x = 100 * (C + B - A);
+				let y = 10 * (A - C);
+				let z = A - B;
+				console.log(x);
+				let number = x + y + z;
+				answer("Secret Number: " + number + ".");
+			}
+		}
+
+		function handleErrors(A, B, C) {
+			if (Number.isNaN(A)) {
+				error("First field must not be empty.");
+				return -1;
+			}
+
+			if (Number.isNaN(B)) {
+				error("Second field must not be empty.");
+				return -1;
+			}
+
+			if (Number.isNaN(C)) {
+				error("Third field must not be empty.");
+				return -1;
+			}
+
+			if (A > 9 * 3) {
+				error("Sum of all digits cannot be greater than 27.");
+				return -1;
+			}
+
+			if (A < 0) {
+				error("Sum of all digits cannot be less than 0.")
+				return -1;
+			}
+
+			if (B > 9 * 2) {
+				error("100s Digit + 10s Digit cannot be greater than 18.");
+				return -1;
+			}
+
+			if (B < 0) {
+				error("100s Digit + 10s Digit cannot be less than 0.");
+				return -1;
+			}
+
+			if (C > 9 * 2) {
+				error("100s Digit + 1s Digit cannot be greater than 18.");
+				return -1;
+			}
+
+			if (C < 0) {
+				error("100s Digit + 1s Digit cannot be less than 0.");
+				return -1;
+			}
+
+			if (A < B) {
+				error("Sum of all digits cannot be less than 100s Digit + 10s Digit.");
+				return -1;
+			}
+
+			if (C + B < A) {
+				error("The sum of the last two fields cannot be less than the first field.")
+				return -1;
+			}
+
+			if (A < C) {
+				error("Sum of all digits cannot be less than 100s Digit + 1s Digit.")
+				return -1;
+			}
+
+			return 0;
+		}
+
+		function error(text) {
+			secret_number_p.style.color = "red";
+			secret_number_p.innerText = "Error: " + text;
+		}
+
+		function answer(text) {
+			secret_number_p.style.color = "blue";
+			secret_number_p.innerText = text;		
+		}
+	</script>
+</body>
+</html>
